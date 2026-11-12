@@ -122,7 +122,7 @@ section{position:relative}
 .dir:hover .dir-bgw img{transform:scale(1.05)}
 .dir::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(14,15,17,.94) 0,rgba(14,15,17,.78) 40%,rgba(14,15,17,.12) 78%),linear-gradient(0deg,rgba(14,15,17,.55) 0,transparent 45%)}
 .dir .bgword{position:absolute;left:-2%;top:6px;opacity:.7;font-family:var(--display);font-weight:700;font-size:clamp(70px,9vw,128px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--line);z-index:0;white-space:nowrap;user-select:none}
-.dir-body{padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:16px;align-self:end;position:relative;z-index:2;max-width:min(56%,460px)}
+.dir-body{padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:16px;align-self:center;position:relative;z-index:2;max-width:min(56%,460px)}
 .dir h3{font-size:clamp(30px,3.6vw,44px)}
 .dir .who{color:var(--muted);font-size:16px}
 .checks{display:flex;flex-direction:column;gap:10px}
@@ -132,7 +132,7 @@ section{position:relative}
 /* бокс: анімовані груша й рукавиці */
 .dir-bgw img.bg-pil2{object-position:70% center}
 .dir-bgw img.bg-box{object-position:80% center}
-@container (max-width:520px){.dir-body{max-width:100%}.dir::after{background:linear-gradient(0deg,rgba(14,15,17,.97) 0,rgba(14,15,17,.9) 48%,rgba(14,15,17,0) 100%)}.dir-bgw img{object-position:78% 30%}.dir-bgw img.bg-pil2{object-position:74% 15%}.dir-bgw img.bg-box{object-position:75% 20%}}
+@container (max-width:520px){.dir-body{max-width:100%;align-self:end}.dir::after{background:linear-gradient(0deg,rgba(14,15,17,.97) 0,rgba(14,15,17,.9) 48%,rgba(14,15,17,0) 100%)}.dir-bgw img{object-position:78% 30%}.dir-bgw img.bg-pil2{object-position:74% 15%}.dir-bgw img.bg-box{object-position:75% 20%}}
 
 /* тренери */
 .trainers{background:var(--bg-2)}
