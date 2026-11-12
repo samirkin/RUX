@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="uk" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>РУХ — тренування з боксу та пілатесу</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Графіт + лайм. Світла тема в :root, темна нижче. Розкладка: широкий контейнер 1200px, герой у два стовпці, секції з великими відступами. */
+:root{
+  --bg:#F1F2EE; --bg-2:#E6E8E1; --card:#FFFFFF; --card-2:#F7F8F4;
+  --text:#16181B; --muted:#585E57; --line:rgba(22,24,27,.14); --line-strong:rgba(22,24,27,.28);
+  --accent:#C6F135; --on-accent:#14160F; --accent-ink:#16181B;
+  --hl-color:#16181B; --hl-bg:#C6F135;
+  --band-bg:#16181B; --band-text:#F3F4F1; --band-muted:#B4B9B1;
+  --glow:rgba(198,241,53,.55);
+  --shadow:0 18px 50px -24px rgba(22,24,27,.35);
+  --display:'Unbounded','Montserrat','Arial Black',sans-serif;
+  --body:'Onest','Segoe UI',system-ui,sans-serif;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#17191C; --bg-2:#1D2024; --card:#22262B; --card-2:#1B1E22;
+  --text:#F3F4F1; --muted:#A9AEA6; --line:rgba(255,255,255,.11); --line-strong:rgba(255,255,255,.26);
+  --accent:#C6F135; --on-accent:#14160F; --accent-ink:#C6F135;
+  --hl-color:#C6F135; --hl-bg:transparent;
+  --band-bg:#0D0E10; --band-text:#F3F4F1; --band-muted:#B4B9B1;
+  --glow:rgba(198,241,53,.32);
+  --shadow:0 20px 60px -28px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{width:100%;max-width:1800px;margin:0 auto;padding:0 clamp(18px,3.7vw,50px)}
+section{position:relative}
+.sec{padding:clamp(64px,9vw,120px) 0}
+.sec-head{display:flex;align-items:center;gap:24px;margin-bottom:clamp(28px,4vw,48px)}
+.sec-head h2{font-size:clamp(28px,4vw,48px)}
+.sec-head::after{content:"";flex:1;height:2px;background:var(--accent);opacity:.9;min-width:40px;transform-origin:left;transition:transform 1s cubic-bezier(.2,.7,.2,1) .15s}
+.js .sec-head:not(.in)::after{transform:scaleX(0)}
+.hl{color:var(--hl-color);background:var(--hl-bg);border-radius:.18em;padding:0 .14em;margin:0 -.14em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.lead{color:var(--muted);max-width:56ch}
+
+/* кнопки */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 24px;border-radius:999px;font:600 16px/1 var(--body);border:2px solid transparent;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,color .25s;white-space:nowrap}
+.btn svg{width:18px;height:18px;transition:transform .25s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px -10px var(--glow)}
+.btn-ghost{border-color:var(--line-strong);color:var(--text);background:transparent}
+.btn-ghost:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.btn-sm{min-height:42px;padding:0 20px;font-size:15px}
+.btn-block{width:100%;justify-content:center}
+
+/* шапка */
+.header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+.header.scrolled{border-color:var(--line)}
+.header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px}
+.logo{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:4px}
+.logo i{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;margin-top:10px}
+.nav{display:flex;align-items:center;gap:clamp(18px,3vw,40px)}
+.nav a:not(.btn){font-weight:500;font-size:16px;position:relative;padding:6px 0}
+.nav a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav a:not(.btn):hover::after{transform:scaleX(1)}
+.burger{display:none;width:46px;height:46px;border-radius:50%;border:2px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;align-items:center;justify-content:center}
+.burger svg{width:22px;height:22px}
+
+/* головний банер: фото на всю праву частину, фон із залом (img/hero-bg.jpg) ледь видно */
+.hero{--hh:clamp(560px,calc(100svh - 72px),1080px);height:var(--hh);overflow:hidden;position:relative;isolation:isolate}
+.hero-bg{position:absolute;inset:0;z-index:-3;background:url(img/hero-bg.jpg) center 30%/cover no-repeat;opacity:.2;filter:grayscale(1) contrast(1.05)}
+:root:not([data-theme="dark"]) .hero-bg{opacity:.16}
+.hero-atmo{position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:
+   radial-gradient(48% 55% at 74% 34%,var(--glow),transparent 70%),
+   radial-gradient(36% 30% at 6% 0%,color-mix(in srgb,var(--text) 9%,transparent),transparent 72%),
+   linear-gradient(90deg,var(--bg) 0,color-mix(in srgb,var(--bg) 55%,transparent) 38%,transparent 62%),
+   linear-gradient(180deg,transparent 70%,var(--bg) 100%)}
+.hero-lines{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+  background:repeating-linear-gradient(100deg,transparent 0 150px,var(--line) 150px 151px);
+  -webkit-mask-image:linear-gradient(90deg,transparent 20%,#000 70%);mask-image:linear-gradient(90deg,transparent 20%,#000 70%)}
+.hero .wrap{position:relative;height:100%;display:flex;align-items:center}
+.hero-copy{position:relative;z-index:3;max-width:min(500px,44%);padding:0 0 40px}
+.hero h1{font-size:clamp(32px,4.1vw,56px);margin-bottom:22px}
+.hero h1>span{display:block}
+.hero .sub{font-size:clamp(18px,1.8vw,22px);color:var(--muted);max-width:26ch;margin-bottom:34px}
+.hero-visual{position:absolute;z-index:1;top:24px;right:-4vw;width:min(88vw,calc(var(--hh)*1.6))}
+.disc{position:absolute;left:9%;top:6%;width:82%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 45%,var(--accent) 0,color-mix(in srgb,var(--accent) 55%,transparent) 40%,transparent 68%);opacity:.8;filter:blur(2px)}
+:root[data-theme="dark"] .disc{opacity:.42}
+.ring{position:absolute;left:15%;top:12%;width:70%;aspect-ratio:1;border-radius:50%;border:2px dashed var(--line-strong);animation:spin 70s linear infinite}
+.hero-photo{position:relative;width:100%;height:auto;filter:drop-shadow(0 30px 40px rgba(0,0,0,.3))}
+.pill{position:absolute;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;background:var(--card);color:var(--text);font-weight:600;font-size:15px;box-shadow:var(--shadow);border:1px solid var(--line);animation:float 6s ease-in-out infinite}
+.pill::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+.pill.p1{left:12%;top:44%}
+.pill.p2{right:7%;top:30%;animation-delay:-3s}
+.par{transform:translate3d(var(--px,0),var(--py,0),0);will-change:transform}
+
+/* лічильники */
+.band{background:var(--band-bg);color:var(--band-text);padding:clamp(40px,6vw,72px) 0;position:relative;z-index:3}
+.counters{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.counter{padding:0 clamp(12px,3vw,40px);border-left:1px solid rgba(255,255,255,.14)}
+.counter:first-child{border-left:0;padding-left:0}
+.counter .n{font-family:var(--display);font-weight:700;font-size:clamp(40px,6.2vw,84px);line-height:1;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.counter .n small{font-size:.34em;font-weight:600;margin-left:.2em;color:var(--band-text);letter-spacing:0}
+.counter p{margin-top:12px;color:var(--band-muted);font-size:clamp(14px,1.4vw,17px);max-width:22ch}
+
+/* напрями */
+.dirs{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,28px)}
+.dir{position:relative;overflow:hidden;border-radius:30px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);display:grid;grid-template-columns:1fr;min-height:520px;isolation:isolate;container-type:inline-size;--text:#F3F4F1;--muted:#C4C9C1;--line:rgba(255,255,255,.16);--line-strong:rgba(255,255,255,.36);color:var(--text);background:#121315;transition:border-color .4s,box-shadow .4s}
+.dir:hover{border-color:var(--accent)}
+.dir-in{display:contents}
+.dir-bgw{position:absolute;left:0;right:0;top:-7%;bottom:-7%;z-index:-3}
+.dir-bgw img{width:100%;height:100%;object-fit:cover;object-position:68% center;transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.dir:hover .dir-bgw img{transform:scale(1.05)}
+.dir::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(14,15,17,.94) 0,rgba(14,15,17,.78) 40%,rgba(14,15,17,.12) 78%),linear-gradient(0deg,rgba(14,15,17,.55) 0,transparent 45%)}
+.dir .bgword{position:absolute;left:-2%;top:6px;opacity:.7;font-family:var(--display);font-weight:700;font-size:clamp(70px,9vw,128px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--line);z-index:0;white-space:nowrap;user-select:none}
+.dir-body{padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:16px;align-self:end;position:relative;z-index:2;max-width:min(56%,460px)}
+.dir h3{font-size:clamp(30px,3.6vw,44px)}
+.dir .who{color:var(--muted);font-size:16px}
+.checks{display:flex;flex-direction:column;gap:10px}
+.checks li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
+.checks svg{flex:none;width:20px;height:20px;margin-top:2px;padding:3px;border-radius:50%;background:var(--accent);color:var(--on-accent)}
+.dir .btn{align-self:flex-start;margin-top:8px}
+/* бокс: анімовані груша й рукавиці */
+.dir-bgw img.bg-pil2{object-position:70% center}
+.dir-bgw img.bg-box{object-position:80% center}
+@container (max-width:520px){.dir-body{max-width:100%}.dir::after{background:linear-gradient(0deg,rgba(14,15,17,.97) 0,rgba(14,15,17,.9) 48%,rgba(14,15,17,0) 100%)}.dir-bgw img{object-position:78% 30%}.dir-bgw img.bg-pil2{object-position:74% 15%}.dir-bgw img.bg-box{object-position:75% 20%}}
+
+/* тренери */
+.trainers{background:var(--bg-2)}
+.trainer{display:grid;grid-template-columns:240px 1fr 1fr;gap:clamp(18px,3vw,44px);align-items:stretch;padding:clamp(20px,2.4vw,32px) 0;border-top:1px solid var(--line)}
+.trainer:first-of-type{border-top:0;padding-top:0}
+.portrait{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 38%,var(--card)) 0,var(--card) 70%);border:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center}
+.portrait img{width:92%;height:auto;max-height:100%;object-fit:contain;object-position:bottom;transition:transform .6s}
+.trainer:hover .portrait img{transform:scale(1.04)}
+.tag{display:inline-block;padding:7px 14px;border-radius:10px;background:var(--accent);color:var(--on-accent);font-weight:600;font-size:14px}
+.tr-main{display:flex;flex-direction:column;align-items:flex-start;gap:14px;justify-content:center}
+.tr-main h3{font-size:clamp(22px,2.4vw,30px)}
+.tr-main p{color:var(--muted)}
+.tr-side{border-left:2px solid var(--accent);padding-left:clamp(16px,2.4vw,32px);display:flex;flex-direction:column;gap:12px;justify-content:center}
+.tr-side h4{margin:0;font:600 17px/1.3 var(--body)}
+.tr-side p{color:var(--muted);font-size:16px}
+.exp{display:inline-flex;align-items:baseline;gap:8px;font-family:var(--display);font-weight:600;font-size:24px}
+.exp small{font:500 15px var(--body);color:var(--muted)}
+
+/* ритм */
+.rhythm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px)}
+.rcard{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:14px;transition:transform .3s,border-color .3s}
+.rcard:hover{transform:translateY(-6px);border-color:var(--accent)}
+.ico{width:44px;height:44px;color:var(--accent);display:grid;place-items:center}
+:root:not([data-theme="dark"]) .ico{color:var(--text)}
+.ico svg{width:36px;height:36px}
+.rcard h3{font-size:21px}
+.rcard p{color:var(--muted);font-size:16px}
+.meta{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:15px}
+.meta li{display:flex;justify-content:space-between;gap:12px}
+.meta span{color:var(--muted)}
+
+/* перше заняття */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,40px);position:relative;margin-bottom:44px}
+.steps::before{content:"";position:absolute;left:8%;right:8%;top:28px;height:2px;background:repeating-linear-gradient(90deg,var(--line-strong) 0 8px,transparent 8px 16px)}
+.step{position:relative;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.step b{width:58px;height:58px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font:700 22px var(--display);box-shadow:0 0 0 8px var(--bg)}
+.step h3{font-size:21px}
+.step p{color:var(--muted);font-size:16px;max-width:30ch}
+.center{display:flex;justify-content:center}
+
+/* ціни */
+.prices{background:var(--bg-2)}
+.prices-photo{position:relative;isolation:isolate;overflow:hidden}
+.pr-bgw{position:absolute;left:0;right:0;top:-8%;bottom:-8%;z-index:-2}
+.pr-bgw img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:grayscale(1) brightness(.62) contrast(1.1);opacity:.85}
+:root:not([data-theme="dark"]) .pr-bgw img{filter:grayscale(1) contrast(1.05);opacity:.5}
+#prices .pcard{background:rgba(24,26,30,.38);-webkit-backdrop-filter:blur(16px) saturate(1.25);backdrop-filter:blur(16px) saturate(1.25);border:1px solid rgba(255,255,255,.18);box-shadow:0 24px 60px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12)}
+:root:not([data-theme="dark"]) #prices .pcard{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.7);box-shadow:0 24px 60px rgba(20,22,24,.12),inset 0 1px 0 rgba(255,255,255,.8)}
+.prices-photo::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,var(--bg-2) 0,transparent 24%,transparent 76%,var(--bg-2) 100%)}
+
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,28px)}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:22px;box-shadow:var(--shadow)}
+.pcard header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pcard h3{font-size:clamp(26px,3vw,34px)}
+.prow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px dashed var(--line-strong);font-size:18px}
+.prow:first-of-type{border-top:1px dashed var(--line-strong)}
+.prow strong{font-family:var(--display);font-weight:600;font-size:22px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.prow.sm{font-size:16px;color:var(--muted)}
+.prow.sm strong{font:500 16px var(--body);color:var(--text)}
+
+/* відгуки */
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,28px)}
+.rev{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:clamp(24px,3vw,36px);display:flex;flex-direction:column;gap:18px}
+.rev{border-left:4px solid var(--accent);border-radius:6px 26px 26px 6px}
+.rev p{font:600 clamp(19px,2vw,23px)/1.35 var(--display);letter-spacing:-.01em}
+.rev footer{display:flex;align-items:center;gap:12px;margin-top:auto;color:var(--muted);font-size:15px}
+
+/* FAQ */
+.faq{display:flex;flex-direction:column;gap:12px;width:100%}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:18px;transition:border-color .3s}
+.faq details[open]{border-color:var(--accent)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;font-weight:600;font-size:18px;min-height:64px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{flex:none;width:26px;height:26px;padding:5px;border-radius:50%;background:var(--accent);color:var(--on-accent);transition:transform .3s}
+.faq details[open] summary svg{transform:rotate(45deg)}
+.faq .ans{padding:0 24px 22px;color:var(--muted);max-width:64ch}
+
+/* контакти */
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr 1fr;gap:clamp(18px,2.6vw,36px);align-items:stretch}
+.cinfo{display:flex;flex-direction:column;gap:22px}
+.cinfo li{display:flex;gap:14px;align-items:flex-start}
+.cinfo .ico{width:46px;height:46px;border-radius:50%;flex:none;background:transparent;color:var(--text);border:2px solid var(--accent)}
+.cinfo .ico svg{width:22px;height:22px}
+.cinfo b{display:block;font-weight:600}
+.cinfo span{color:var(--muted);font-size:15px}
+.map{position:relative;border-radius:26px;overflow:hidden;min-height:340px;background:var(--card);border:1px solid var(--line)}
+.map svg.grid{position:absolute;inset:0;width:100%;height:100%}
+.pin{position:absolute;left:50%;top:44%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:10px}
+.pin svg{width:46px;height:46px;color:var(--accent);fill:var(--accent);filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+.pin span{background:var(--card);border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-weight:600;font-size:14px;box-shadow:var(--shadow);white-space:nowrap}
+.pulse{position:absolute;left:50%;top:44%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--accent);animation:pulse 2.4s ease-out infinite}
+form{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:clamp(20px,2.4vw,30px);display:flex;flex-direction:column;gap:16px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label,.field legend{font-weight:600;font-size:14px}
+.field input[type=text]{min-height:50px;border-radius:14px;border:1.5px solid var(--line-strong);background:var(--card-2);color:var(--text);padding:0 16px;font:400 16px var(--body)}
+.field input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%,transparent)}
+fieldset{border:0;margin:0;padding:0}
+.hint{font-size:13px;color:var(--muted);margin-top:2px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:7px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:14px;border:1.5px solid var(--line-strong);cursor:pointer;font-weight:600;transition:all .25s}
+.seg input:checked+label{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.seg input:focus-visible+label{outline:3px solid var(--accent);outline-offset:3px}
+.note{font-size:14px;color:var(--muted);min-height:20px}
+
+/* футер */
+.footer{border-top:1px solid var(--line);padding:36px 0 96px}
+.footer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px}
+.footer p{color:var(--muted);font-size:15px}
+.fnav{display:flex;flex-wrap:wrap;gap:8px 26px;font-size:15px}
+.fnav a:hover{color:var(--accent-ink);text-decoration:underline}
+.soc{display:inline-flex;align-items:center;gap:8px}
+.soc svg{width:22px;height:22px}
+
+/* мова */
+.lang{display:inline-flex;gap:2px;padding:3px;border-radius:999px;border:1.5px solid var(--line-strong);order:3}
+.lang button{min-width:44px;min-height:38px;border:0;border-radius:999px;background:transparent;color:var(--text);font:600 14px var(--body);cursor:pointer;transition:background .25s,color .25s}
+.lang button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.nav{margin-left:auto;order:2}
+/* перемикач для перегляду (видалити на бойовому сайті) */
+.preview-switch{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;display:flex;gap:4px;padding:5px;border-radius:999px;background:var(--card);border:1px solid var(--line-strong);box-shadow:var(--shadow);font-size:14px;font-weight:600}
+.preview-switch a{padding:9px 18px;border-radius:999px;min-height:40px;display:inline-flex;align-items:center}
+.preview-switch a[aria-current="page"]{background:var(--accent);color:var(--on-accent)}
+
+/* поява */
+.js [data-reveal]{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js [data-reveal].in{opacity:1;transform:none}
+.rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--glow)}100%{box-shadow:0 0 0 46px transparent}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js [data-reveal]{opacity:1;transform:none}
+  .par{transform:none!important}
+}
+
+/* адаптив */
+@media (max-width:980px){
+  .contact-grid{grid-template-columns:1fr 1fr}
+  .contact-grid .cinfo{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;gap:20px 40px}
+  .trainer{grid-template-columns:200px 1fr}
+  .tr-side{grid-column:2}
+}
+@media (max-width:820px){
+  .burger{display:inline-flex}
+  .lang{order:0;margin-left:auto;margin-right:4px}
+  .nav{margin-left:0}
+  .nav{position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;padding:12px clamp(18px,3.7vw,50px) 24px;background:var(--bg);border-bottom:1px solid var(--line);display:none}
+  .nav.open{display:flex}
+  .nav a:not(.btn){padding:14px 0;border-bottom:1px solid var(--line);font-size:18px}
+  .nav .btn{margin-top:16px;justify-content:center}
+  .hero{height:auto}
+  .hero .wrap{height:auto;display:block}
+  .hero-copy{max-width:100%;padding:32px 0 8px}
+  .hero-visual{position:relative;top:auto;right:auto;width:min(100%,720px);margin:0 auto;left:0}
+  .pill.p1{left:4%}.pill.p2{right:2%}
+  .hero-atmo{background:radial-gradient(60% 40% at 60% 62%,var(--glow),transparent 70%),linear-gradient(180deg,transparent 80%,var(--bg) 100%)}
+  .dirs,.price-grid,.rev-grid,.rhythm-grid{grid-template-columns:1fr}
+  .price-grid>*,.contact-grid>*,.rev-grid>*,.rhythm-grid>*,.dirs>*{min-width:0}
+  .prow{flex-wrap:wrap;gap:4px 12px}
+  .cinfo,.map{max-width:100%}
+  .steps{grid-template-columns:1fr}
+  .steps::before{display:none}
+  .counters{grid-template-columns:repeat(3,1fr);gap:0}
+  .counter{padding:0 clamp(8px,2.4vw,20px)}
+  .counter:first-child{padding-left:0}
+  .counter .n{font-size:clamp(30px,8.6vw,52px)}
+  .counter .n small{display:block;margin:6px 0 0;font-size:clamp(11px,2.9vw,15px)}
+  .counter p{font-size:clamp(12px,3.2vw,15px);margin-top:8px;max-width:none}
+  .pill.p2{right:5%}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .trainer{grid-template-columns:1fr}
+  .portrait{max-width:100%;aspect-ratio:1/1}
+  .portrait img{width:100%;height:100%;max-height:none;object-fit:cover;object-position:50% 15%}
+  .tr-side{grid-column:auto}
+  .steps{gap:30px}
+  .step b{width:50px;height:50px;font-size:20px}
+  .preview-switch{bottom:10px;padding:3px;font-size:12px}
+  .preview-switch a{padding:6px 12px;min-height:32px}
+  .dir{min-height:560px}
+  .dir-body{max-width:100%}
+  .contact-grid{grid-template-columns:1fr}
+  .prow{font-size:16px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c1-4 4-6 8-6s7 2 8 6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.6"/><path d="M2.5 20c.8-3.6 3.3-5.4 6.5-5.4s5.7 1.8 6.5 5.4"/><circle cx="17" cy="9" r="2.8"/><path d="M17.5 14.4c2.3.2 3.7 1.8 4.2 4.6"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></symbol>
+  <symbol id="i-pin-solid" viewBox="0 0 24 24"><path d="M12 22s8-6.6 8-12.4A8 8 0 0 0 4 9.6C4 15.4 12 22 12 22z"/><circle cx="12" cy="9.6" r="3" fill="#14160F"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".8" fill="currentColor"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M4 18v-5.5C4 8.4 6 6 9.5 5.5l.6 1.8C8.6 7.9 8 9 8 10.5H10.5V18H4zm9 0v-5.5c0-4.1 2-6.5 5.5-7l.6 1.8c-1.5.6-2.1 1.7-2.1 3.2H19.5V18H13z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</svg>
+
+<!-- 1. Шапка -->
+<header class="header" id="top">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="РУХ — на початок">РУХ<i></i></a>
+    <div class="lang" role="group" aria-label="Мова"><button type="button" data-lang="uk" aria-pressed="true" lang="uk">UA</button><button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button></div>
+    <button class="burger" id="burger" aria-label="Відкрити меню" aria-expanded="false" aria-controls="nav"><svg><use href="#i-menu"/></svg></button>
+    <nav class="nav" id="nav" aria-label="Головне меню">
+      <a href="#trainers">Тренери</a>
+      <a href="#directions">Тренування</a>
+      <a href="#prices">Вартість</a>
+      <a href="#contact">Контакти</a>
+      <a href="#contact" class="btn btn-primary btn-sm">Записатися</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- 2. Головний банер -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-atmo" aria-hidden="true"></div>
+  <div class="hero-lines" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <h1><span class="rise" style="--d:.05s">Твоя сила.</span><span class="rise" style="--d:.18s">Твій <span class="hl">баланс.</span></span></h1>
+      <p class="sub rise" style="--d:.32s">Персональні тренування з боксу та пілатесу</p>
+      <a href="#directions" class="btn btn-primary rise" style="--d:.45s">Обрати тренування <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="disc par" data-speed="-0.05"></div>
+    <div class="par" data-speed="0.04">
+      <img class="hero-photo rise" style="--d:.2s" src="img/hero.webp" width="1268" height="1241" alt="Тренерка з пілатесу та тренер з боксу стоять спина до спини">
+    </div>
+    <span class="pill p1">Пілатес</span>
+    <span class="pill p2">Бокс</span>
+  </div>
+</section>
+
+<!-- 3. Досвід у цифрах (значення — приклади, замінити на реальні; третій показник прибрати, якщо заняття не рахували) -->
+<section class="band" aria-label="Досвід у цифрах">
+  <div class="wrap counters">
+    <div class="counter" data-reveal>
+      <div class="n"><span data-count="10">10</span><small>+ років</small></div>
+      <p>Досвіду тренера з боксу</p>
+    </div>
+    <div class="counter" data-reveal style="--d:.12s">
+      <div class="n"><span data-count="8">8</span><small>+ років</small></div>
+      <p>Досвіду тренерки з пілатесу</p>
+    </div>
+    <div class="counter" data-reveal style="--d:.24s">
+      <div class="n"><span data-count="1500" data-sep="1">1500</span><small>+ занять</small></div>
+      <p>Проведено разом</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Обери свій напрям -->
+<section class="sec" id="directions">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Обери свій напрям</h2></div>
+    <div class="dirs">
+      <article class="dir" data-reveal>
+        <div class="dir-bgw par" data-speed="0.05" aria-hidden="true"><img src="img/box-sparring.webp" width="1536" height="1024" loading="lazy" alt="" class="bg-box"></div>
+        <div class="dir-in">
+        <div class="dir-body">
+          <h3>Бокс</h3>
+          <p class="who">Для тих, хто хоче скинути напругу, додати витривалості та відчути впевненість у собі.</p>
+          <ul class="checks">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Розвиває силу та витривалість</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Знімає напругу та стрес</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Покращує концентрацію</li>
+          </ul>
+          <a href="#trainer-box" class="btn btn-ghost btn-sm">Детальніше <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+                </div>
+      </article>
+      <article class="dir" data-reveal style="--d:.12s">
+        <div class="dir-bgw par" data-speed="0.05" aria-hidden="true"><img src="img/pilates-coach2.webp" width="1774" height="887" loading="lazy" alt="" class="bg-pil2"></div>
+        <div class="dir-in">
+        <div class="dir-body">
+          <h3>Пілатес</h3>
+          <p class="who">Для тих, хто хоче рівну поставу, гнучкість і спокійне, сильне тіло без перевантаження.</p>
+          <ul class="checks">
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Зміцнює та вирівнює тіло</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Покращує мобільність і поставу</li>
+            <li><svg aria-hidden="true"><use href="#i-check"/></svg>Допомагає відновити баланс</li>
+          </ul>
+          <a href="#trainer-pilates" class="btn btn-ghost btn-sm">Детальніше <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div>
+                </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Тренери -->
+<section class="sec trainers" id="trainers">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Тренери, які поруч</h2></div>
+    <article class="trainer" id="trainer-box" data-reveal>
+      <div class="portrait"><img src="img/trainer-box.webp" width="380" height="440" loading="lazy" alt="Тренер з боксу"></div>
+      <div class="tr-main">
+        <span class="tag">Тренер з боксу</span>
+        <h3>[Ім’я Прізвище]</h3>
+        <p>Працюю з технікою, витривалістю та впевненістю в собі. Підбираю напругу та навантаження під твій рівень і цілі.</p>
+      </div>
+      <div class="tr-side">
+        <h4>Кваліфікація та досвід</h4>
+        <span class="exp">10+ <small>років у боксі</small></span>
+        <p>Професійна підготовка у сфері боксу. Досвід індивідуальної роботи з клієнтами.</p>
+      </div>
+    </article>
+    <article class="trainer" id="trainer-pilates" data-reveal>
+      <div class="portrait"><img src="img/trainer-pilates.webp" width="290" height="430" loading="lazy" alt="Тренерка з пілатесу"></div>
+      <div class="tr-main">
+        <span class="tag">Тренерка з пілатесу</span>
+        <h3>[Ім’я Прізвище]</h3>
+        <p>Допомагаю зміцнити тіло, покращити поставу та відчути баланс. Працюю уважно й безпечно, з урахуванням твоїх потреб.</p>
+      </div>
+      <div class="tr-side">
+        <h4>Кваліфікація та досвід</h4>
+        <span class="exp">8+ <small>років у пілатесі</small></span>
+        <p>Професійна підготовка у сфері пілатесу. Досвід індивідуальної роботи з клієнтами.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 6. Тренування у твоєму ритмі -->
+<section class="sec" id="rhythm">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Тренування у твоєму ритмі</h2></div>
+    <div class="rhythm-grid">
+      <div class="rcard" data-reveal>
+        <div class="ico"><svg aria-hidden="true"><use href="#i-user"/></svg></div>
+        <h3>Індивідуально</h3>
+        <p>Повна увага до твоїх цілей. Тренер працює лише з тобою.</p>
+        <ul class="meta"><li><span>Тривалість</span>[XX] хв</li><li><span>Місце</span>студія</li></ul>
+      </div>
+      <div class="rcard" data-reveal style="--d:.1s">
+        <div class="ico"><svg aria-hidden="true"><use href="#i-users"/></svg></div>
+        <h3>У парі</h3>
+        <p>Тренуйтеся разом із близькою людиною. Мотивація подвоюється.</p>
+        <ul class="meta"><li><span>Тривалість</span>[XX] хв</li><li><span>Місце</span>студія</li></ul>
+      </div>
+      <div class="rcard" data-reveal style="--d:.2s">
+        <div class="ico"><svg aria-hidden="true"><use href="#i-cal"/></svg></div>
+        <h3>За домовленістю</h3>
+        <p>Обирайте зручний для вас час. Підлаштуємо розклад під твій ритм.</p>
+        <ul class="meta"><li><span>Запис</span>на зручний час</li><li><span>Адреса</span>при записі</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Твоє перше заняття -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Твоє перше <span class="hl">заняття</span></h2></div>
+    <div class="steps">
+      <div class="step" data-reveal><b>1</b><h3>Знайомство</h3><p>Коротко про тебе, твій досвід і самопочуття.</p></div>
+      <div class="step" data-reveal style="--d:.12s"><b>2</b><h3>Обговорення цілей</h3><p>Визначаємо напрям, формат і комфортне навантаження.</p></div>
+      <div class="step" data-reveal style="--d:.24s"><b>3</b><h3>Тренування</h3><p>Проводимо перше заняття з урахуванням твоїх цілей.</p></div>
+    </div>
+    <div class="center" data-reveal><a href="#contact" class="btn btn-primary">Домовитися про заняття <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+  </div>
+</section>
+
+<!-- 8. Вартість -->
+<section class="sec prices prices-photo" id="prices">
+  <div class="pr-bgw par" data-speed="0.05" aria-hidden="true"><img src="img/prices-bg.webp" width="1331" height="749" loading="lazy" alt=""></div>
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Вартість тренувань</h2></div>
+    <div class="price-grid">
+      <article class="pcard" data-reveal>
+        <header><h3>Бокс</h3><span class="tag">Тренер</span></header>
+        <div>
+          <div class="prow"><span>Разове заняття</span><strong>£XX</strong></div>
+          <div class="prow"><span>Пакет 5 занять</span><strong>£XX</strong></div>
+          <div class="prow sm"><span>Тривалість</span><strong>[XX] хв</strong></div>
+        </div>
+        <button type="button" class="btn btn-primary btn-block" data-pick="box">Записатися на бокс <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </article>
+      <article class="pcard" data-reveal style="--d:.12s">
+        <header><h3>Пілатес</h3><span class="tag">Тренерка</span></header>
+        <div>
+          <div class="prow"><span>Разове заняття</span><strong>£XX</strong></div>
+          <div class="prow"><span>Пакет 5 занять</span><strong>£XX</strong></div>
+          <div class="prow sm"><span>Тривалість</span><strong>[XX] хв</strong></div>
+        </div>
+        <button type="button" class="btn btn-primary btn-block" data-pick="pilates">Записатися на пілатес <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Відгуки -->
+<section class="sec" id="reviews">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Відгуки клієнтів</h2></div>
+    <div class="rev-grid">
+      <figure class="rev" data-reveal style="margin:0">
+        <p>Тут буде відгук клієнта.</p>
+        <footer><span class="tag">Бокс</span>[Ім’я клієнта]</footer>
+      </figure>
+      <figure class="rev" data-reveal style="margin:0;--d:.12s">
+        <p>Тут буде відгук клієнта.</p>
+        <footer><span class="tag">Пілатес</span>[Ім’я клієнта]</footer>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 10. Питання -->
+<section class="sec" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Поширені запитання</h2></div>
+    <div class="faq" data-reveal>
+      <details><summary>Чи можна почати без досвіду?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">Так. На першому занятті тренер познайомиться з тобою і підбере навантаження під твій рівень.</div></details>
+      <details><summary>Що взяти на перше заняття?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">Зручний спортивний одяг, воду та рушник. Про інвентар домовимося заздалегідь.</div></details>
+      <details><summary>Де проходять тренування?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">Адресу студії повідомимо при записі.</div></details>
+      <details><summary>Як оплатити заняття?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">[Додати способи й момент оплати: після заняття, наперед, пакетом.]</div></details>
+      <details><summary>Як перенести запис?<svg aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">Напиши або зателефонуй тренеру заздалегідь, і ми підберемо інший час. [Уточнити, за скільки годин.]</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- 11. Контакти й запис -->
+<section class="sec prices" id="contact">
+  <div class="wrap">
+    <div class="sec-head" data-reveal><h2>Почнемо?</h2></div>
+    <div class="contact-grid">
+      <ul class="cinfo" data-reveal>
+        <li><div class="ico"><svg aria-hidden="true"><use href="#i-pin"/></svg></div><div><b>Адреса студії</b><span>Уточнюється при записі</span></div></li>
+        <li><div class="ico"><svg aria-hidden="true"><use href="#i-phone"/></svg></div><div><b>Телефон</b><span>+44 XX XXX XXXX</span></div></li>
+        <li><div class="ico"><svg aria-hidden="true"><use href="#i-insta"/></svg></div><div><b>Instagram</b><span>@rukh_training</span></div></li>
+      </ul>
+      <div class="map" data-reveal style="--d:.1s" role="img" aria-label="Місце для карти. Локація тренувань буде додана пізніше">
+        <svg class="grid" viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g stroke="currentColor" stroke-opacity=".16" stroke-width="10" fill="none" style="color:var(--text)">
+            <path d="M-20 60L420 140M-20 200L420 120M80-20L160 360M250-20L330 360M-20 290L420 270"/>
+          </g>
+          <g stroke="currentColor" stroke-opacity=".1" stroke-width="3" fill="none" style="color:var(--text)">
+            <path d="M0 20L400 90M0 120L400 220M40 0L110 340M190 0L240 340M330 0L380 340M0 330L400 330"/>
+          </g>
+        </svg>
+        <span class="pulse"></span>
+        <div class="pin"><span>Локація тренувань</span><svg aria-hidden="true"><use href="#i-pin-solid"/></svg></div>
+      </div>
+      <form id="lead" data-reveal style="--d:.2s" novalidate>
+        <div class="field"><label for="f-name">Ім’я</label><input id="f-name" name="name" type="text" placeholder="Твоє ім’я" autocomplete="name"></div>
+        <div class="field"><label for="f-contact">Телефон або email</label><input id="f-contact" name="contact" type="text" placeholder="Як з тобою зв’язатися" autocomplete="tel"></div>
+        <fieldset>
+          <legend class="field" style="font-weight:600;font-size:14px">Напрям тренування</legend>
+          <p class="hint">Можна обрати обидва</p>
+          <div class="seg">
+            <input type="checkbox" name="dir" id="d-box" value="box" checked><label for="d-box">Бокс</label>
+            <input type="checkbox" name="dir" id="d-pil" value="pilates"><label for="d-pil">Пілатес</label>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primary btn-block">Записатися <svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <p class="note" id="note" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- 12. Футер -->
+<footer class="footer">
+  <div class="wrap">
+    <a href="#top" class="logo" aria-label="РУХ — на початок">РУХ<i></i></a>
+    <p>Бокс і пілатес. Персональний підхід.</p>
+    <nav class="fnav" aria-label="Меню у футері">
+      <a href="#trainers">Тренери</a><a href="#directions">Тренування</a><a href="#prices">Вартість</a><a href="#contact">Контакти</a>
+    </nav>
+    <a class="soc" href="#contact"><svg aria-hidden="true"><use href="#i-insta"/></svg>@rukh_training</a>
+    <a class="fnav" href="#top" style="font-size:15px">Політика конфіденційності</a>
+  </div>
+</footer>
+
+<!-- Перемикач версій для перегляду макета, на бойовому сайті видалити -->
+<nav class="preview-switch" aria-label="Версія макета">
+  <a href="index.html" aria-current="page">Темна</a><a href="light.html" >Світла</a>
+</nav>
+
+<script>
+(function(){
+  var doc=document.documentElement; doc.classList.add('js');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+var EN={"РУХ": "RUX", "Тренери": "Trainers", "Тренування": "Training", "Вартість": "Pricing", "Контакти": "Contact", "Записатися": "Book a session", "Твоя сила.": "Your strength.", "Твій": "Your", "баланс.": "balance.", "Персональні тренування з боксу та пілатесу": "Personal boxing and Pilates training", "Обрати тренування": "Choose your training", "Пілатес": "Pilates", "Бокс": "Boxing", "+ років": "+ years", "Досвіду тренера з боксу": "Boxing coach experience", "Досвіду тренерки з пілатесу": "Pilates coach experience", "+ занять": "+ sessions", "Проведено разом": "Delivered together", "Обери свій напрям": "Choose your direction", "БОКС": "BOXING", "ПІЛАТЕС": "PILATES", "Для тих, хто хоче скинути напругу, додати витривалості та відчути впевненість у собі.": "For those who want to release tension, build stamina and feel more confident.", "Розвиває силу та витривалість": "Builds strength and endurance", "Знімає напругу та стрес": "Relieves tension and stress", "Покращує концентрацію": "Improves focus", "Детальніше": "Learn more", "Для тих, хто хоче рівну поставу, гнучкість і спокійне, сильне тіло без перевантаження.": "For those who want better posture, flexibility and a calm, strong body without overload.", "Зміцнює та вирівнює тіло": "Strengthens and aligns the body", "Покращує мобільність і поставу": "Improves mobility and posture", "Допомагає відновити баланс": "Helps restore balance", "Тренери, які поруч": "Trainers by your side", "Тренер з боксу": "Boxing coach", "[Ім’я Прізвище]": "[First Last]", "Працюю з технікою, витривалістю та впевненістю в собі. Підбираю напругу та навантаження під твій рівень і цілі.": "I work on technique, endurance and self-confidence. I adjust the intensity and load to your level and goals.", "Кваліфікація та досвід": "Qualifications and experience", "років у боксі": "years in boxing", "Професійна підготовка у сфері боксу. Досвід індивідуальної роботи з клієнтами.": "Professional boxing training. Experience working one-on-one with clients.", "Тренерка з пілатесу": "Pilates coach", "Допомагаю зміцнити тіло, покращити поставу та відчути баланс. Працюю уважно й безпечно, з урахуванням твоїх потреб.": "I help you strengthen your body, improve posture and find balance. I work attentively and safely, around your needs.", "років у пілатесі": "years in Pilates", "Професійна підготовка у сфері пілатесу. Досвід індивідуальної роботи з клієнтами.": "Professional Pilates training. Experience working one-on-one with clients.", "Тренування у твоєму ритмі": "Training at your pace", "Індивідуально": "One-on-one", "Повна увага до твоїх цілей. Тренер працює лише з тобою.": "Full attention on your goals. The coach works only with you.", "Тривалість": "Duration", "[XX] хв": "[XX] min", "Місце": "Place", "студія": "studio", "У парі": "In pairs", "Тренуйтеся разом із близькою людиною. Мотивація подвоюється.": "Train together with someone close. Motivation doubles.", "За домовленістю": "By arrangement", "Обирайте зручний для вас час. Підлаштуємо розклад під твій ритм.": "Pick a time that suits you. We will fit the schedule to your rhythm.", "Запис": "Booking", "на зручний час": "at a convenient time", "Адреса": "Address", "при записі": "given when you book", "Твоє перше": "Your first", "заняття": "session", "Знайомство": "Getting acquainted", "Коротко про тебе, твій досвід і самопочуття.": "A quick chat about you, your experience and how you feel.", "Обговорення цілей": "Discussing goals", "Визначаємо напрям, формат і комфортне навантаження.": "We choose the direction, format and a comfortable load.", "Проводимо перше заняття з урахуванням твоїх цілей.": "We run the first session around your goals.", "Домовитися про заняття": "Arrange a session", "Вартість тренувань": "Training prices", "Тренер": "Coach", "Разове заняття": "Single session", "Пакет 5 занять": "5-session pack", "Записатися на бокс": "Book boxing", "Тренерка": "Coach", "Записатися на пілатес": "Book Pilates", "Відгуки клієнтів": "Client reviews", "Тут буде відгук клієнта.": "A client review will go here.", "[Ім’я клієнта]": "[Client name]", "Поширені запитання": "Frequently asked questions", "Чи можна почати без досвіду?": "Can I start with no experience?", "Так. На першому занятті тренер познайомиться з тобою і підбере навантаження під твій рівень.": "Yes. At the first session your coach will get to know you and pick a load that fits your level.", "Що взяти на перше заняття?": "What should I bring to the first session?", "Зручний спортивний одяг, воду та рушник. Про інвентар домовимося заздалегідь.": "Comfortable sportswear, water and a towel. We will agree on equipment in advance.", "Де проходять тренування?": "Where do sessions take place?", "Адресу студії повідомимо при записі.": "We will send you the studio address when you book.", "Як оплатити заняття?": "How do I pay?", "[Додати способи й момент оплати: після заняття, наперед, пакетом.]": "[Add payment methods and timing: after the session, in advance, or by pack.]", "Як перенести запис?": "How do I reschedule?", "Напиши або зателефонуй тренеру заздалегідь, і ми підберемо інший час. [Уточнити, за скільки годин.]": "Message or call your coach in advance and we will find another time. [Specify how many hours' notice.]", "Почнемо?": "Shall we start?", "Адреса студії": "Studio address", "Уточнюється при записі": "Confirmed when you book", "Телефон": "Phone", "Локація тренувань": "Training location", "Ім’я": "Name", "Телефон або email": "Phone or email", "Напрям тренування": "Training type", "Можна обрати обидва": "You can choose both", "Бокс і пілатес. Персональний підхід.": "Boxing and Pilates. A personal approach.", "Політика конфіденційності": "Privacy policy", "Темна": "Dark", "Світла": "Light", "РУХ — на початок": "RUX — back to top", "Відкрити меню": "Open menu", "Головне меню": "Main menu", "Тренерка з пілатесу та тренер з боксу стоять спина до спини": "Pilates coach and boxing coach standing back to back", "Досвід у цифрах": "Experience in numbers", "Тренер з боксу в рукавицях": "Boxing coach wearing gloves", "Місце для карти. Локація тренувань буде додана пізніше": "Map placeholder. The training location will be added later", "Твоє ім’я": "Your name", "Як з тобою зв’язатися": "How can we reach you", "Меню у футері": "Footer menu", "Версія макета": "Mockup version", "Мова": "Language", "РУХ — тренування з боксу та пілатесу": "RUX — boxing and Pilates training"};
+
+  // мова: українська за замовчуванням, англійська через перемикач UA / EN
+  var lang='uk',noteState=null,textOrig=new WeakMap(),attrOrig=new WeakMap();
+  var ATTRS=['alt','placeholder','aria-label'];
+  var NOTES={uk:{fill:'Заповни ім’я та контакт, щоб ми могли з тобою зв’язатися.',dir:'Обери бокс, пілатес або обидва напрями.',mock:'Це макет: заявка нікуди не надсилається. Відправку підключимо на готовому сайті.'},
+             en:{fill:'Please add your name and contact so we can reach you.',dir:'Choose boxing, Pilates or both.',mock:'This is a mockup: the request is not sent anywhere. Sending will be connected on the live site.'}};
+  var titleUk=document.title;
+  function applyLang(l){
+    lang=l;
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),n;
+    while(n=w.nextNode()){
+      var p=n.parentNode&&n.parentNode.nodeName; if(p==='SCRIPT'||p==='STYLE')continue;
+      var o=textOrig.get(n); if(o===undefined){o=n.nodeValue;textOrig.set(n,o)}
+      var k=o.trim();
+      n.nodeValue=(l==='en'&&EN[k]!==undefined)?o.replace(k,EN[k]):o;
+    }
+    document.querySelectorAll('[alt],[placeholder],[aria-label]').forEach(function(el){
+      var st=attrOrig.get(el); if(!st){st={};attrOrig.set(el,st)}
+      ATTRS.forEach(function(a){
+        if(!el.hasAttribute(a))return;
+        if(st[a]===undefined)st[a]=el.getAttribute(a);
+        var v=st[a];
+        el.setAttribute(a,(l==='en'&&EN[v]!==undefined)?EN[v]:v);
+      });
+    });
+    document.title=(l==='en')?EN[titleUk]:titleUk;
+    document.documentElement.lang=l;
+    document.querySelectorAll('.lang button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===l)});
+    var note=document.getElementById('note'); if(note&&noteState)note.textContent=NOTES[l][noteState];
+    try{localStorage.setItem('rux-lang',l)}catch(e){}
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){applyLang(b.dataset.lang)})});
+
+  // шапка
+  var header=document.querySelector('.header');
+  function onScroll(){header.classList.toggle('scrolled',window.scrollY>8)}
+  // меню
+  var burger=document.getElementById('burger'),nav=document.getElementById('nav');
+  burger.addEventListener('click',function(){var o=nav.classList.toggle('open');burger.setAttribute('aria-expanded',o)});
+  nav.addEventListener('click',function(e){if(e.target.closest('a')){nav.classList.remove('open');burger.setAttribute('aria-expanded','false')}});
+
+  // поява блоків
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});
+  document.querySelectorAll('[data-reveal]').forEach(function(el){io.observe(el)});
+
+  // лічильники
+  function fmt(n,sep){var s=String(n);return sep?s.replace(/\B(?=(\d{3})+(?!\d))/g,' '):s}
+  var cio=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting)return; cio.unobserve(e.target);
+    var el=e.target,to=+el.dataset.count,sep=el.dataset.sep,t0=performance.now(),d=1800;
+    if(reduce){el.textContent=fmt(to,sep);return}
+    (function tick(t){var p=Math.min(1,(t-t0)/d),v=Math.round(to*(1-Math.pow(1-p,3)));el.textContent=fmt(v,sep);if(p<1)requestAnimationFrame(tick)})(t0);
+  })},{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    if(!reduce){var r=el.getBoundingClientRect();if(r.top>window.innerHeight)el.textContent='0'}
+    cio.observe(el)});
+
+  // паралакс
+  var pars=[].slice.call(document.querySelectorAll('.par'));
+  var ticking=false;
+  function parallax(){
+    ticking=false; if(reduce)return;
+    var vh=window.innerHeight;
+    pars.forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.bottom<-200||r.top>vh+200)return;
+      var off=(r.top+r.height/2-vh/2)*parseFloat(el.dataset.speed||0);
+      if(el.dataset.axis==='x'){el.style.setProperty('--px',off.toFixed(1)+'px')}else{el.style.setProperty('--py',(-off).toFixed(1)+'px')}
+    });
+  }
+  window.addEventListener('scroll',function(){onScroll();if(!ticking){ticking=true;requestAnimationFrame(parallax)}},{passive:true});
+  window.addEventListener('resize',parallax);
+  onScroll();parallax();
+  try{var saved=localStorage.getItem('rux-lang');if(saved==='en')applyLang('en')}catch(e){}
+
+  // кнопки «Записатися на …» в цінах
+  document.querySelectorAll('[data-pick]').forEach(function(b){b.addEventListener('click',function(){
+    document.getElementById('d-box').checked=(b.dataset.pick==='box');document.getElementById('d-pil').checked=(b.dataset.pick!=='box');
+    document.getElementById('contact').scrollIntoView({behavior:reduce?'auto':'smooth'});
+  })});
+
+  // форма (макет: нікуди не надсилає)
+  var note=document.getElementById('note');
+  document.getElementById('lead').addEventListener('submit',function(e){
+    e.preventDefault();
+    var n=document.getElementById('f-name').value.trim(),c=document.getElementById('f-contact').value.trim();
+    var anyDir=document.getElementById('d-box').checked||document.getElementById('d-pil').checked;noteState=(!n||!c)?'fill':(!anyDir?'dir':'mock');note.textContent=NOTES[lang][noteState];
+  });
+})();
+</script>
+</body>
+</html>
